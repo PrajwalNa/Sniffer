@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
                 // printing with ANSI escape codes for color
                 fprintf(stdout, "Usage: %s -i interface [-p (TCP|UDP|ICMP|ARP)] [-n (Num of Packets)] [-s srcIP] [-d destIP] [-veax]\n", argv[0]);
                 fprintf(stdout, "Options:\033[38;5;141m\n");
-                fprintf(stdout, "\t-i:\033[0m Interface\033[38;5;141m\n");
+                fprintf(stdout, "\t-i:\033[0m  Interface\033[38;5;141m\n");
                 fprintf(stdout, "\t-v:\033[0m  Verbose\033[38;5;141m\n");
                 fprintf(stdout, "\t-e:\033[0m  Exclude Ethernet header\033[38;5;141m\n");
                 fprintf(stdout, "\t-p:\033[0m  Protocol (Default is watch for All)\033[38;5;141m\n");
