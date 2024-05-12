@@ -78,7 +78,6 @@ int tcp = 0, udp = 0, icmp = 0, other = 0, otherEth = 0, arp = 0;   // counters 
 // these were made global so that they can accessed in the signal handler
 int rawSocket;          // raw socket, making it global so that it can be closed in the signal handler
 char* interface = NULL; // interface to listen on
-int n = INT32_MAX;              // default number of packets is infinite so set to max, this is funnily included with net/ethernet.h
 
 
 int main(int argc, char* argv[]) {
@@ -87,6 +86,8 @@ int main(int argc, char* argv[]) {
     int dataSize;                   // num of butes received in recv
     int opt;                        // to check command line options
     long writePos;                  // position the file pointer last wrote to
+    int n = INT32_MAX;              // default number of packets is infinite so set to max, this is funnily included with net/ethernet.h
+
 
     signal(SIGINT, sigintHandler);  // register signal handler for SIGINT (Ctrl+C)
 
