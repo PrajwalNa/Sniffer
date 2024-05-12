@@ -9,7 +9,7 @@
 *   Author: Prajwal Nautiyal
 *   Date: 11 May 2024
 *   Version: 1.0
-*
+
 // Features
 *   - The program is a packet sniffer that listens on a specified interface and prints the details of the packets received
 *   - It can filter packets based on protocol (TCP, UDP, ICMP, ARP), source and destination IP addresses
@@ -37,8 +37,8 @@
 *       - netinet/ip.h: IP header (struct iphdr)
 *       - netinet/if_ether.h: Ethernet header for Linux systems (struct ethhdr)
 *       - net/ethernet.h: Ethernet header for BSD systems (struct ether_header) also has INT32_MAX XD
-
-*   - "modules.c": contains the functions to process the packet headers
+*
+*   - "modules.c": contains the functions and the required headers to process the packets depending on the protocol 
 *
 *   - Global variables
 *       - FILE* logFile: log file to write to
@@ -76,7 +76,6 @@ int tcp = 0, udp = 0, icmp = 0, other = 0, otherEth = 0, arp = 0;   // counters 
 // these were made global so that they can accessed in the signal handler
 int rawSocket;          // raw socket, making it global so that it can be closed in the signal handler
 char* interface = NULL; // interface to listen on
-int n = INT32_MAX;              // default number of packets is infinite so set to max, this is funnily included with net/ethernet.h
 
 
 int main(int argc, char* argv[]) {
@@ -85,6 +84,8 @@ int main(int argc, char* argv[]) {
     int dataSize;                   // num of butes received in recv
     int opt;                        // to check command line options
     long writePos;                  // position the file pointer last wrote to
+    int n = INT32_MAX;              // default number of packets is infinite so set to max, this is funnily included with net/ethernet.h
+
 
     signal(SIGINT, sigintHandler);  // register signal handler for SIGINT (Ctrl+C)
 
