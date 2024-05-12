@@ -17,10 +17,22 @@
 extern FILE* logFile;
 extern char srcIP[16], destIP[16];
 extern char verbose, noEth, ascii, hex;
-extern struct sockaddr_in src, dest;
+
+
+void ethernetHeader(unsigned char* buffer, int size) {
+    // ethhdr is defined in netinet/if_ether.h
+    // it has declarations for source and destination MAC addresses and protocol
+    struct ethhdr* eth = (struct ethhdr*)buffer;
+
+    fprintf(logFile, "\nEthernet Header\n");
+    fprintf(logFile, "\t| Source MAC Address: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n", eth->h_source[0], eth->h_source[1], eth->h_source[2], eth->h_source[3], eth->h_source[4], eth->h_source[5]);
+    fprintf(logFile, "\t| Destination MAC Address: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n", eth->h_dest[0], eth->h_dest[1], eth->h_dest[2], eth->h_dest[3], eth->h_dest[4], eth->h_dest[5]);
+    fprintf(logFile, "\t| Protocol: %u\n", (unsigned short)eth->h_proto);
+}
 
 
 int ipHeader(unsigned char* buffer, int size, struct iphdr** ipH) {
+    struct sockaddr_in src, dest;   // source and destination IP addresses in packet
     // set binary zeros to the sockaddr_in structs
     // then set the IP addresses to the source and destination IP addresses from the IP header
     memset(&src, 0, sizeof(src));
@@ -72,18 +84,6 @@ int ipHeader(unsigned char* buffer, int size, struct iphdr** ipH) {
     fprintf(logFile, "\t| Destination IP: %s\n", inet_ntoa(dest.sin_addr));
 
     return 0;
-}
-
-
-void ethernetHeader(unsigned char* buffer, int size) {
-    // ethhdr is defined in netinet/if_ether.h
-    // it has declarations for source and destination MAC addresses and protocol
-    struct ethhdr* eth = (struct ethhdr*)buffer;
-
-    fprintf(logFile, "\nEthernet Header\n");
-    fprintf(logFile, "\t| Source MAC Address: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n", eth->h_source[0], eth->h_source[1], eth->h_source[2], eth->h_source[3], eth->h_source[4], eth->h_source[5]);
-    fprintf(logFile, "\t| Destination MAC Address: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n", eth->h_dest[0], eth->h_dest[1], eth->h_dest[2], eth->h_dest[3], eth->h_dest[4], eth->h_dest[5]);
-    fprintf(logFile, "\t| Protocol: %u\n", (unsigned short)eth->h_proto);
 }
 
 

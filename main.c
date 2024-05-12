@@ -44,7 +44,6 @@
 *       - FILE* logFile: log file to write to
 *       - char srcIP[16], destIP[16]: source and destination IP addresses to filter for
 *       - char verbose = 0, noEth = 0, proto = 'X', ascii = 0, hex = 0, prom = 0: Filter flags
-*       - struct sockaddr_in src, dest: source and destination IP addresses in packet
 *       - int tcp = 0, udp = 0, icmp = 0, other = 0, otherEth = 0, arp = 0: counters for different protocols
 *       // made global to be accessed in the signal handler
 *       - int rawSocket: raw socket
@@ -72,7 +71,6 @@ void sigintHandler(int sig);
 FILE* logFile; // log file to write to
 char srcIP[16], destIP[16]; // source and destination IP addresses to filter for
 char verbose = 0, noEth = 0, proto = 'X', ascii = 0, hex = 0, prom = 0; // flags
-struct sockaddr_in src, dest;   // source and destination IP addresses in packet
 int tcp = 0, udp = 0, icmp = 0, other = 0, otherEth = 0, arp = 0;   // counters for different protocols
 
 // these were made global so that they can accessed in the signal handler
