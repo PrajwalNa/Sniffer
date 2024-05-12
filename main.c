@@ -38,7 +38,7 @@
 *       - netinet/if_ether.h: Ethernet header for Linux systems (struct ethhdr)
 *       - net/ethernet.h: Ethernet header for BSD systems (struct ether_header) also has INT32_MAX XD
 *
-*   - "modules.c": contains the functions to process the packet headers
+*   - "modules.c": contains the functions and the required headers to process the packets depending on the protocol 
 *
 *   - Global variables
 *       - FILE* logFile: log file to write to
