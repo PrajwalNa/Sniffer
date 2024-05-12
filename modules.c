@@ -131,9 +131,10 @@ void tcpHeader(unsigned char* buffer, int size, struct iphdr** ipH) {
     fprintf(logFile, "\t| Checksum: %d\n", ntohs(tcp->th_sum)); // Header Checksum
     fprintf(logFile, "\t| Urgent Pointer: %d\n", tcp->th_urp);  // Urgent Pointer
 
+    // getting the total offset by adding the sizes of Eth frame and IP packet header
     unsigned int totalHead = sizeof(struct ethhdr) + (*ipH)->ihl * 4 + tcp->th_off * 4;
-    unsigned int payloadSize = size - totalHead;
-    payload(buffer + totalHead, payloadSize);
+    unsigned int payloadSize = size - totalHead;    // also the size on data, which is the size of packet - size of headers
+    payload(buffer + totalHead, payloadSize);       // send to payload function for printing the data after setting data offset to after the headers
 }
 
 
@@ -146,6 +147,7 @@ void udpHeader(unsigned char* buffer, int size, struct iphdr** ipH) {
     fprintf(logFile, "\t| Length: %d\n", ntohs(udp->uh_ulen));
     fprintf(logFile, "\t| Checksum: %d\n", ntohs(udp->uh_sum));
 
+    // same process as TCP Headers
     unsigned int totalHead = sizeof(struct ethhdr) + (*ipH)->ihl * 4 + sizeof(struct udphdr);
     unsigned int payloadSize = size - totalHead;
     payload(buffer + totalHead, payloadSize);
@@ -183,6 +185,7 @@ void icmpHeader(unsigned char* buffer, int size, struct iphdr** ipH) {
     fprintf(logFile, "\t| Identifier: %d\n", ntohs(icmp->un.echo.id));
     fprintf(logFile, "\t| Sequence Number: %d\n", ntohs(icmp->un.echo.sequence));
 
+    // same process as TCP headers
     unsigned int totalHead = sizeof(struct ethhdr) + (*ipH)->ihl * 4 + sizeof(struct icmphdr);
     unsigned int payloadSize = size - totalHead;
     payload(buffer + totalHead, payloadSize);
