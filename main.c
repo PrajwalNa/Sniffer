@@ -9,7 +9,7 @@
 *   Author: Prajwal Nautiyal
 *   Date: 11 May 2024
 *   Version: 1.0
-*
+
 // Features
 *   - The program is a packet sniffer that listens on a specified interface and prints the details of the packets received
 *   - It can filter packets based on protocol (TCP, UDP, ICMP, ARP), source and destination IP addresses
@@ -37,7 +37,7 @@
 *       - netinet/ip.h: IP header (struct iphdr)
 *       - netinet/if_ether.h: Ethernet header for Linux systems (struct ethhdr)
 *       - net/ethernet.h: Ethernet header for BSD systems (struct ether_header) also has INT32_MAX XD
-
+*
 *   - "modules.c": contains the functions to process the packet headers
 *
 *   - Global variables
