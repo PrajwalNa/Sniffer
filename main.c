@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
     logFile = fopen("log.txt", "w+");
     char line[256];
     if (logFile == NULL) {
-        perror("Failed to open log file");
+        fprintf(stderr, "Failed to open log file");
         return 1;
     }
 
@@ -211,7 +211,7 @@ int main(int argc, char* argv[]) {
 
     // Check if socket creation was successful
     if (rawSocket < 0) {
-        perror("Socket creation failed");
+        fprintf(stderr, "Socket creation failed");
         close(rawSocket);
         return 1;
     }
@@ -221,7 +221,7 @@ int main(int argc, char* argv[]) {
     // SO_BINDTODEVICE is used to bind the socket to a specific interface
     // the binding is done at the socket level (level 1), so all packets sent or received on this socket will be on the specified interface
     if (setsockopt(rawSocket, SOL_SOCKET, SO_BINDTODEVICE, interface, strlen(interface) + 1) < 0) {
-        perror("Bind to device failed");
+        fprintf(stderr, "Bind to device failed");
         close(rawSocket);
         return 1;
     }
@@ -232,14 +232,14 @@ int main(int argc, char* argv[]) {
     if (prom == 1) {
         strncpy(intf.ifr_name, interface, IFNAMSIZ);    // copy the interface name to the ifreq struct, IFNAMSIZ is the max size of interface name
         if (ioctl(rawSocket, SIOCGIFFLAGS, &intf) == -1) {  // get the flags of the interface, if it fails, print error and exit
-            perror("IOCTL failed to get interface flags!");
+            fprintf(stderr, "IOCTL failed to get interface flags!");
             close(rawSocket);
             fclose(logFile);
             exit(1);
         }
         intf.ifr_flags |= IFF_PROMISC;  // set the promiscuous flag by doing a bitwise OR operation (intf.ifr_flags = intf.ifr_flags | IFF_PROMISC;)
         if (ioctl(rawSocket, SIOCSIFFLAGS, &intf) == -1) {  // set the flags of the interface, if it fails, print error and exit
-            perror("IOCTL failed to set promiscuous mode!");
+            fprintf(stderr, "IOCTL failed to set promiscuous mode!");
             close(rawSocket);
             fclose(logFile);
             exit(1);
@@ -257,7 +257,7 @@ int main(int argc, char* argv[]) {
         fflush(stdout);
 
         if (dataSize < 0) {
-            perror("Failed to receive data");
+            fprintf(stderr, "Failed to receive data");
             close(rawSocket);
             fclose(logFile);
             exit(1);
@@ -288,7 +288,7 @@ int main(int argc, char* argv[]) {
     if (prom == 1) {
         intf.ifr_flags &= ~IFF_PROMISC;
         if (ioctl(rawSocket, SIOCSIFFLAGS, &intf) == -1) {
-            perror("IOCTL failed to disable promiscuous mode!");
+            fprintf(stderr, "IOCTL failed to disable promiscuous mode!");
             close(rawSocket);
             fclose(logFile);
             exit(1);
@@ -402,14 +402,14 @@ void sigintHandler(int sig) {
         struct ifreq intf;
         strncpy(intf.ifr_name, interface, IFNAMSIZ);
         if (ioctl(rawSocket, SIOCGIFFLAGS, &intf) == -1) {
-            perror("IOCTL failed to get interface flags!");
+            fprintf(stderr, "IOCTL failed to get interface flags!");
             close(rawSocket);
             fclose(logFile);
             exit(1);
         }
         intf.ifr_flags &= ~IFF_PROMISC;
         if (ioctl(rawSocket, SIOCSIFFLAGS, &intf) == -1) {
-            perror("IOCTL failed to disable promiscuous mode!");
+            fprintf(stderr, "IOCTL failed to disable promiscuous mode!");
             close(rawSocket);
             fclose(logFile);
             exit(1);
