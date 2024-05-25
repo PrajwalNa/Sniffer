@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
                 fprintf(stdout, "\t-a:\033[0m  Print payload in ASCII\033[38;5;141m");
                 fprintf(stdout, "\t-x:\033[0m  Print payload in Hex\n");
                 fprintf(stdout, "\t\tIf you want both hex and ascii payload you can just combine both flags \033[38;5;141m[-ax]\n");
-                fprintf(stdout, "\t-m:\033[0m  Enable promiscuous mode\033[38;5;141m\n");
+                fprintf(stdout, "\t-m:\033[0m  Enable promiscuous mode\n");
                 return 0;
 
             default:
